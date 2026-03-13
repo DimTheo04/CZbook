@@ -33,6 +33,7 @@ function buildSlots(selectedDate: Date) {
 export function Booking({ session }: BookingProps) {
   const navigate = useNavigate()
   const [selectedDate, setSelectedDate] = useState<Date>(getNextBookableDate)
+  const [selectedSlot, setSelectedSlot] = useState<Date | null>(null)
   const [bookedAppointments, setBookedAppointments] = useState<Appointment[]>([])
   const [loading, setLoading] = useState(true)
   const [submitting, setSubmitting] = useState(false)
@@ -43,6 +44,11 @@ export function Booking({ session }: BookingProps) {
 
   useEffect(() => {
     void loadAppointments(selectedDate)
+  }, [selectedDate])
+
+  useEffect(() => {
+    setSelectedSlot(null)
+    setMessage(null)
   }, [selectedDate])
 
   async function loadAppointments(date: Date) {
@@ -75,13 +81,24 @@ export function Booking({ session }: BookingProps) {
     return bookedAppointments.some((appointment) => isEqual(new Date(appointment.start_time), slot))
   }
 
-  async function handleBook(slot: Date) {
+  async function handleConfirmBooking() {
+    if (!selectedSlot) {
+      setError('Select an available time slot first.')
+      return
+    }
+
+    if (isSlotBooked(selectedSlot)) {
+      setError('This slot is no longer available. Please choose another one.')
+      setSelectedSlot(null)
+      return
+    }
+
     setSubmitting(true)
     setError(null)
     setMessage(null)
 
-    const startTime = slot.toISOString()
-    const endTime = addHours(slot, 1).toISOString()
+    const startTime = selectedSlot.toISOString()
+    const endTime = addHours(selectedSlot, 1).toISOString()
 
     const { error: insertError } = await supabase.from('appointments').insert({
       user_id: session.user.id,
@@ -96,7 +113,8 @@ export function Booking({ session }: BookingProps) {
       return
     }
 
-    setMessage(`Appointment confirmed for ${format(slot, 'EEEE, MMMM d')} at ${format(slot, 'HH:mm')}.`)
+    setMessage(`Appointment confirmed for ${format(selectedSlot, 'EEEE, MMMM d')} at ${format(selectedSlot, 'HH:mm')}.`)
+    setSelectedSlot(null)
     await loadAppointments(selectedDate)
     setSubmitting(false)
   }
@@ -151,15 +169,26 @@ export function Booking({ session }: BookingProps) {
               <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
                 {slots.map((slot) => {
                   const booked = isSlotBooked(slot)
+                  const selected = selectedSlot ? isEqual(selectedSlot, slot) : false
 
                   return (
                     <button
                       key={slot.toISOString()}
                       type="button"
-                      onClick={() => void handleBook(slot)}
+                      onClick={() => {
+                        if (booked || submitting) {
+                          return
+                        }
+                        setError(null)
+                        setMessage(null)
+                        setSelectedSlot(slot)
+                      }}
                       disabled={booked || submitting}
                       className={[
                         'rounded-3xl border px-4 py-4 text-left transition',
+                        selected && !booked
+                          ? 'border-amber-300 bg-amber-300/10 text-white shadow-[0_0_20px_rgba(251,191,36,0.2)]'
+                          : '',
                         booked
                           ? 'cursor-not-allowed border-white/5 bg-slate-950/70 text-slate-500'
                           : 'border-white/10 bg-slate-900/75 text-white hover:border-amber-300/40 hover:bg-slate-800',
@@ -172,7 +201,7 @@ export function Booking({ session }: BookingProps) {
                         <div>
                           <p className="text-sm font-semibold">{format(slot, 'HH:mm')}</p>
                           <p className="text-xs uppercase tracking-[0.3em] text-slate-400">
-                            {booked ? 'Booked' : 'Available'}
+                            {booked ? 'Booked' : selected ? 'Selected' : 'Available'}
                           </p>
                         </div>
                       </div>
@@ -181,6 +210,22 @@ export function Booking({ session }: BookingProps) {
                 })}
               </div>
             )}
+
+            <div className="mt-5 rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+              <p className="text-sm text-slate-300">
+                {selectedSlot
+                  ? `Selected slot: ${format(selectedSlot, 'EEEE, MMM d')} at ${format(selectedSlot, 'HH:mm')}`
+                  : 'Select a slot above, then confirm your booking.'}
+              </p>
+              <button
+                type="button"
+                onClick={() => void handleConfirmBooking()}
+                disabled={!selectedSlot || submitting || loading}
+                className="mt-3 w-full rounded-2xl bg-amber-300 px-4 py-3 text-sm font-semibold text-slate-950 transition hover:bg-amber-200 disabled:cursor-not-allowed disabled:bg-amber-300/60"
+              >
+                {submitting ? 'Confirming...' : 'Confirm booking'}
+              </button>
+            </div>
           </section>
         </section>
       </div>
