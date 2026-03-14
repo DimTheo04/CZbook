@@ -153,17 +153,17 @@ export function Login({ session }: LoginProps) {
   return (
     <main className="min-h-screen bg-slate-950 px-4 py-8 text-white sm:px-6">
       <div className="mx-auto flex min-h-[calc(100vh-4rem)] max-w-md flex-col justify-center">
-        <div className="rounded-[2rem] border border-white/10 bg-[radial-gradient(circle_at_top,_rgba(251,191,36,0.2),_transparent_32%),linear-gradient(180deg,rgba(15,23,42,0.96),rgba(2,6,23,0.96))] p-6 shadow-[0_30px_90px_rgba(0,0,0,0.45)] sm:p-8">
+        <div className="rounded-[2rem] border border-white/10 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.16),_transparent_34%),linear-gradient(180deg,rgba(15,23,42,0.96),rgba(2,6,23,0.98))] p-6 shadow-[0_30px_90px_rgba(0,0,0,0.55)] sm:p-8">
           <div className="mb-8 flex items-center justify-between">
-            <div className="rounded-full border border-amber-300/30 bg-amber-300/10 p-3 text-amber-300">
+            <div className="rounded-full border border-zinc-200/30 bg-zinc-200/10 p-3 text-zinc-100">
               <Scissors className="h-6 w-6" />
             </div>
             <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs uppercase tracking-[0.35em] text-slate-300">
-              <Sparkles className="h-3.5 w-3.5 text-amber-300" /> Premium Grooming
+              <Sparkles className="h-3.5 w-3.5 text-zinc-100" /> Studio Access
             </span>
           </div>
 
-          <p className="text-xs uppercase tracking-[0.35em] text-amber-300/70">Barber Booking</p>
+          <p className="text-xs uppercase tracking-[0.35em] text-zinc-400">Barber Booking</p>
           <h1 className="mt-3 text-3xl font-semibold leading-tight">Reserve your next appointment in under a minute.</h1>
           <p className="mt-3 text-sm leading-6 text-slate-300">
             Sign in with email and password to manage upcoming visits and lock in an available slot from Tuesday to Saturday.
@@ -175,7 +175,7 @@ export function Login({ session }: LoginProps) {
               onClick={() => setAuthMode('signin')}
               className={[
                 'rounded-xl px-3 py-2 text-sm font-medium transition',
-                authMode === 'signin' ? 'bg-amber-300 text-slate-950' : 'text-slate-300 hover:text-white',
+                authMode === 'signin' ? 'bg-zinc-100 text-slate-950' : 'text-slate-300 hover:text-white',
               ].join(' ')}
             >
               Sign in
@@ -185,7 +185,7 @@ export function Login({ session }: LoginProps) {
               onClick={() => setAuthMode('signup')}
               className={[
                 'rounded-xl px-3 py-2 text-sm font-medium transition',
-                authMode === 'signup' ? 'bg-amber-300 text-slate-950' : 'text-slate-300 hover:text-white',
+                authMode === 'signup' ? 'bg-zinc-100 text-slate-950' : 'text-slate-300 hover:text-white',
               ].join(' ')}
             >
               Sign up
@@ -196,7 +196,7 @@ export function Login({ session }: LoginProps) {
             <label className="block">
               <span className="mb-2 block text-sm font-medium text-slate-200">Email address</span>
               <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-slate-900/80 px-4 py-3 shadow-inner shadow-black/20">
-                <Mail className="h-5 w-5 text-amber-300" />
+                <Mail className="h-5 w-5 text-zinc-200" />
                 <input
                   type="email"
                   required
@@ -211,7 +211,7 @@ export function Login({ session }: LoginProps) {
             <label className="block">
               <span className="mb-2 block text-sm font-medium text-slate-200">Password</span>
               <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-slate-900/80 px-4 py-3 shadow-inner shadow-black/20">
-                <Lock className="h-5 w-5 text-amber-300" />
+                <Lock className="h-5 w-5 text-zinc-200" />
                 <input
                   type="password"
                   minLength={6}
@@ -230,7 +230,7 @@ export function Login({ session }: LoginProps) {
             <button
               type="submit"
               disabled={authSubmitting}
-              className="w-full rounded-2xl bg-amber-300 px-4 py-3 text-sm font-semibold text-slate-950 transition hover:bg-amber-200 disabled:cursor-not-allowed disabled:bg-amber-300/60"
+              className="w-full rounded-2xl bg-zinc-100 px-4 py-3 text-sm font-semibold text-slate-950 transition hover:bg-white disabled:cursor-not-allowed disabled:bg-zinc-400/60"
             >
               {authSubmitting
                 ? authMode === 'signin'
@@ -253,7 +253,7 @@ export function Login({ session }: LoginProps) {
               type="button"
               onClick={() => void handleGoogleLogin()}
               disabled={oauthSubmitting || authSubmitting || magicSubmitting}
-              className="flex w-full items-center justify-center gap-3 rounded-2xl border border-white/15 bg-white/5 px-4 py-3 text-sm font-semibold text-white transition hover:border-amber-300/45 hover:text-amber-200 disabled:cursor-not-allowed disabled:opacity-60"
+              className="flex w-full items-center justify-center gap-3 rounded-2xl border border-white/15 bg-white/5 px-4 py-3 text-sm font-semibold text-white transition hover:border-zinc-200/55 hover:text-white disabled:cursor-not-allowed disabled:opacity-60"
             >
               <span className="grid h-5 w-5 place-items-center rounded-full bg-white text-[10px] font-bold text-slate-900">G</span>
               {oauthSubmitting ? 'Redirecting to Google...' : 'Continue with Google'}
@@ -263,14 +263,14 @@ export function Login({ session }: LoginProps) {
               type="button"
               onClick={() => void handleMagicLink()}
               disabled={magicSubmitting || cooldown > 0 || authSubmitting || oauthSubmitting}
-              className="w-full rounded-2xl border border-white/15 bg-white/5 px-4 py-3 text-sm font-semibold text-white transition hover:border-amber-300/45 hover:text-amber-200 disabled:cursor-not-allowed disabled:opacity-60"
+              className="w-full rounded-2xl border border-white/15 bg-white/5 px-4 py-3 text-sm font-semibold text-white transition hover:border-zinc-200/55 hover:text-white disabled:cursor-not-allowed disabled:opacity-60"
             >
               {magicSubmitting ? 'Sending magic link...' : cooldown > 0 ? `Retry magic link in ${cooldown}s` : 'Send magic link'}
             </button>
           </div>
 
           <p className="mt-6 text-sm text-slate-400">
-            Already authenticated? Head back to the <Link to="/" className="text-amber-300 transition hover:text-amber-200">dashboard</Link>.
+            Already authenticated? Head back to the <Link to="/" className="text-zinc-200 transition hover:text-white">dashboard</Link>.
           </p>
         </div>
       </div>

@@ -122,24 +122,24 @@ export function Booking({ session }: BookingProps) {
   return (
     <main className="min-h-screen bg-slate-950 px-4 py-6 text-white sm:px-6">
       <div className="mx-auto max-w-5xl space-y-6">
-        <section className="overflow-hidden rounded-[2rem] border border-white/10 bg-[radial-gradient(circle_at_top,_rgba(251,191,36,0.18),_transparent_30%),linear-gradient(180deg,rgba(15,23,42,0.96),rgba(2,6,23,0.96))] p-5 shadow-[0_30px_90px_rgba(0,0,0,0.45)] sm:p-8">
+        <section className="overflow-hidden rounded-[2rem] border border-white/10 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.14),_transparent_32%),linear-gradient(180deg,rgba(15,23,42,0.96),rgba(2,6,23,0.98))] p-5 shadow-[0_30px_90px_rgba(0,0,0,0.55)] sm:p-8">
           <Link
             to="/"
-            className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-slate-200 transition hover:border-amber-300/40 hover:text-amber-200"
+            className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-slate-200 transition hover:border-zinc-300/50 hover:text-white"
           >
             <ArrowLeft className="h-4 w-4" /> Back to dashboard
           </Link>
 
           <div className="mt-6 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div>
-              <p className="text-xs uppercase tracking-[0.35em] text-amber-300/70">Reserve a chair</p>
+              <p className="text-xs uppercase tracking-[0.35em] text-zinc-400">Reserve a chair</p>
               <h1 className="mt-2 text-3xl font-semibold">Select a date and claim an open hour.</h1>
             </div>
 
             <button
               type="button"
               onClick={() => navigate('/')}
-              className="rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm font-medium text-slate-100 transition hover:border-amber-300/40 hover:text-amber-200"
+              className="rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm font-medium text-slate-100 transition hover:border-zinc-300/50 hover:text-white"
             >
               View my bookings
             </button>
@@ -152,7 +152,7 @@ export function Booking({ session }: BookingProps) {
           <section className="rounded-[2rem] border border-white/10 bg-white/5 p-5 shadow-[0_20px_60px_rgba(0,0,0,0.35)] backdrop-blur sm:p-6">
             <div className="mb-6 flex items-end justify-between gap-4">
               <div>
-                <p className="text-xs uppercase tracking-[0.35em] text-amber-300/70">Available slots</p>
+                <p className="text-xs uppercase tracking-[0.35em] text-zinc-400">Available slots</p>
                 <h2 className="mt-2 text-xl font-semibold">{format(selectedDate, 'EEEE, MMMM d')}</h2>
               </div>
               <p className="text-sm text-slate-400">Tue-Sat, 09:00-21:00</p>
@@ -163,7 +163,7 @@ export function Booking({ session }: BookingProps) {
 
             {loading ? (
               <div className="flex min-h-52 items-center justify-center rounded-3xl border border-white/10 bg-slate-950/60">
-                <LoaderCircle className="h-6 w-6 animate-spin text-amber-300" />
+                <LoaderCircle className="h-6 w-6 animate-spin text-zinc-100" />
               </div>
             ) : (
               <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
@@ -187,15 +187,15 @@ export function Booking({ session }: BookingProps) {
                       className={[
                         'rounded-3xl border px-4 py-4 text-left transition',
                         selected && !booked
-                          ? 'border-amber-300 bg-amber-300/10 text-white shadow-[0_0_20px_rgba(251,191,36,0.2)]'
+                          ? 'border-zinc-100 bg-zinc-100/10 text-white shadow-[0_0_20px_rgba(255,255,255,0.2)]'
                           : '',
                         booked
                           ? 'cursor-not-allowed border-white/5 bg-slate-950/70 text-slate-500'
-                          : 'border-white/10 bg-slate-900/75 text-white hover:border-amber-300/40 hover:bg-slate-800',
+                          : 'border-white/10 bg-slate-900/75 text-white hover:border-zinc-300/50 hover:bg-slate-800',
                       ].join(' ')}
                     >
                       <div className="flex items-center gap-3">
-                        <span className="rounded-full border border-amber-300/30 bg-amber-300/10 p-2 text-amber-300">
+                        <span className="rounded-full border border-zinc-200/40 bg-zinc-200/10 p-2 text-zinc-100">
                           <Clock3 className="h-4 w-4" />
                         </span>
                         <div>
@@ -221,7 +221,7 @@ export function Booking({ session }: BookingProps) {
                 type="button"
                 onClick={() => void handleConfirmBooking()}
                 disabled={!selectedSlot || submitting || loading}
-                className="mt-3 w-full rounded-2xl bg-amber-300 px-4 py-3 text-sm font-semibold text-slate-950 transition hover:bg-amber-200 disabled:cursor-not-allowed disabled:bg-amber-300/60"
+                className="mt-3 w-full rounded-2xl bg-zinc-100 px-4 py-3 text-sm font-semibold text-slate-950 transition hover:bg-white disabled:cursor-not-allowed disabled:bg-zinc-400/60"
               >
                 {submitting ? 'Confirming...' : 'Confirm booking'}
               </button>
